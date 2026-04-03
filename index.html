@@ -1,551 +1,1748 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Ronak Jangid — Web Developer Portfolio</title>
-<meta name="description" content="Ronak Jangid — Web Developer, Frontend Engineer & UI Craftsman from Jaipur. Explore projects, skills, and experience.">
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<script src="https://unpkg.com/three@0.128.0/build/three.min.js"></script>
-<script src="https://unpkg.com/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-<script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
-<style>
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-:root{--cyan:#00f5ff;--violet:#9d00ff;--magenta:#ff006e;--bg:#050508;--glass:rgba(255,255,255,0.04)}
-html{scroll-behavior:auto}
-body{background:var(--bg);color:#e0e0e0;font-family:'Rajdhani',sans-serif;overflow-x:hidden;cursor:none}
-h1,h2,h3,h4,h5,h6{font-family:'Orbitron',sans-serif}
-a{color:var(--cyan);text-decoration:none}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Ronak Jangid — Web Developer Portfolio</title>
+    <meta
+      name="description"
+      content="Ronak Jangid — Web Developer, Frontend Engineer & UI Craftsman from Jaipur. Explore projects, skills, and experience."
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://unpkg.com/three@0.128.0/build/three.min.js"></script>
+    <script src="https://unpkg.com/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+    <style>
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      :root {
+        --cyan: #00f5ff;
+        --violet: #9d00ff;
+        --magenta: #ff006e;
+        --bg: #050508;
+        --glass: rgba(255, 255, 255, 0.04);
+      }
+      html {
+        scroll-behavior: auto;
+      }
+      body {
+        background: var(--bg);
+        color: #e0e0e0;
+        font-family: "Rajdhani", sans-serif;
+        overflow-x: hidden;
+        cursor: none;
+      }
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        font-family: "Orbitron", sans-serif;
+      }
+      a {
+        color: var(--cyan);
+        text-decoration: none;
+      }
 
-/* SCROLL PROGRESS */
-#scroll-progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--cyan),var(--violet),var(--magenta));z-index:10000;width:0%;transition:width .05s linear;box-shadow:0 0 12px var(--cyan)}
+      /* SCROLL PROGRESS */
+      #scroll-progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 3px;
+        background: linear-gradient(
+          90deg,
+          var(--cyan),
+          var(--violet),
+          var(--magenta)
+        );
+        z-index: 10000;
+        width: 0%;
+        transition: width 0.05s linear;
+        box-shadow: 0 0 12px var(--cyan);
+      }
 
-/* CUSTOM CURSOR */
-#cursor-dot{position:fixed;width:8px;height:8px;background:var(--cyan);border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);box-shadow:0 0 10px var(--cyan);transition:transform .05s}
-#cursor-ring{position:fixed;width:36px;height:36px;border:2px solid rgba(0,245,255,0.5);border-radius:50%;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);transition:width .2s,height .2s,border-color .2s}
+      /* CUSTOM CURSOR */
+      #cursor-dot {
+        position: fixed;
+        width: 8px;
+        height: 8px;
+        background: var(--cyan);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 99999;
+        transform: translate(-50%, -50%);
+        box-shadow: 0 0 10px var(--cyan);
+        transition: transform 0.05s;
+      }
+      #cursor-ring {
+        position: fixed;
+        width: 36px;
+        height: 36px;
+        border: 2px solid rgba(0, 245, 255, 0.5);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 99998;
+        transform: translate(-50%, -50%);
+        transition:
+          width 0.2s,
+          height 0.2s,
+          border-color 0.2s;
+      }
 
-/* EMBERS */
-.ember{position:fixed;width:3px;height:3px;background:var(--cyan);border-radius:50%;pointer-events:none;z-index:1;opacity:0;animation:ember-float 6s infinite}
-@keyframes ember-float{0%{opacity:0;transform:translateY(100vh) scale(0)}20%{opacity:.7}80%{opacity:.3}100%{opacity:0;transform:translateY(-20vh) scale(1.5) translateX(40px)}}
+      /* EMBERS */
+      .ember {
+        position: fixed;
+        width: 3px;
+        height: 3px;
+        background: var(--cyan);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 1;
+        opacity: 0;
+        animation: ember-float 6s infinite;
+      }
+      @keyframes ember-float {
+        0% {
+          opacity: 0;
+          transform: translateY(100vh) scale(0);
+        }
+        20% {
+          opacity: 0.7;
+        }
+        80% {
+          opacity: 0.3;
+        }
+        100% {
+          opacity: 0;
+          transform: translateY(-20vh) scale(1.5) translateX(40px);
+        }
+      }
 
-/* SECTION HEADERS */
-.section-tag{font-family:'Orbitron',sans-serif;font-size:clamp(.7rem,1.2vw,.9rem);color:var(--violet);letter-spacing:4px;text-transform:uppercase;margin-bottom:8px;opacity:.8}
-.section-title{font-size:clamp(1.8rem,4vw,3rem);background:linear-gradient(90deg,var(--cyan),var(--violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:40px;position:relative}
-section{min-height:100vh;padding:100px 5vw;position:relative;overflow:hidden}
+      /* SECTION HEADERS */
+      .section-tag {
+        font-family: "Orbitron", sans-serif;
+        font-size: clamp(0.7rem, 1.2vw, 0.9rem);
+        color: var(--violet);
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        margin-bottom: 8px;
+        opacity: 0.8;
+      }
+      .section-title {
+        font-size: clamp(1.8rem, 4vw, 3rem);
+        background: linear-gradient(90deg, var(--cyan), var(--violet));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 40px;
+        position: relative;
+      }
+      section {
+        min-height: 100vh;
+        padding: 100px 5vw;
+        position: relative;
+        overflow: hidden;
+      }
 
-/* ===================== HERO ===================== */
-#hero{display:flex;align-items:center;justify-content:flex-start;position:relative}
-#hero-canvas{position:absolute;top:0;left:0;width:100%;height:100%;z-index:0}
-.hero-content{position:relative;z-index:2;max-width:600px;padding-left:5vw}
-.hero-content h1{font-size:clamp(2.5rem,6vw,5rem);line-height:1.1;letter-spacing:2px;color:#fff;position:relative}
-.glitch{position:relative;display:inline-block}
-.glitch::before,.glitch::after{content:attr(data-text);position:absolute;top:0;left:0;width:100%;height:100%;overflow:hidden}
-.glitch::before{color:var(--cyan);clip-path:inset(0 0 65% 0);animation:glitch-top 2.5s infinite linear alternate-reverse}
-.glitch::after{color:var(--magenta);clip-path:inset(65% 0 0 0);animation:glitch-bot 3s infinite linear alternate-reverse}
-@keyframes glitch-top{0%{transform:translate(0)}20%{transform:translate(-3px,3px)}40%{transform:translate(3px,-2px)}60%{transform:translate(-2px,1px)}80%{transform:translate(2px,-3px)}100%{transform:translate(0)}}
-@keyframes glitch-bot{0%{transform:translate(0)}25%{transform:translate(3px,2px)}50%{transform:translate(-3px,-1px)}75%{transform:translate(2px,3px)}100%{transform:translate(0)}}
-.typing-line{font-size:clamp(1rem,2.5vw,1.6rem);color:var(--cyan);margin:20px 0 30px;min-height:40px;font-family:'Rajdhani',sans-serif;font-weight:500}
-.typing-line .cursor-blink{animation:blink .7s infinite}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
-.cta-btn{display:inline-block;padding:14px 40px;border:2px solid var(--cyan);color:var(--cyan);font-family:'Orbitron',sans-serif;font-size:.9rem;letter-spacing:3px;text-transform:uppercase;position:relative;overflow:hidden;transition:all .3s}
-.cta-btn:hover{background:var(--cyan);color:var(--bg);box-shadow:0 0 30px rgba(0,245,255,.5)}
-.cta-btn::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(0,245,255,.2),transparent);transition:left .5s}
-.cta-btn:hover::before{left:100%}
+      /* ===================== HERO ===================== */
+      #hero {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        position: relative;
+      }
+      #hero-canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+      }
+      .hero-content {
+        position: relative;
+        z-index: 2;
+        max-width: 600px;
+        padding-left: 5vw;
+      }
+      .hero-content h1 {
+        font-size: clamp(2.5rem, 6vw, 5rem);
+        line-height: 1.1;
+        letter-spacing: 2px;
+        color: #fff;
+        position: relative;
+      }
+      .glitch {
+        position: relative;
+        display: inline-block;
+      }
+      .glitch::before,
+      .glitch::after {
+        content: attr(data-text);
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+      .glitch::before {
+        color: var(--cyan);
+        clip-path: inset(0 0 65% 0);
+        animation: glitch-top 2.5s infinite linear alternate-reverse;
+      }
+      .glitch::after {
+        color: var(--magenta);
+        clip-path: inset(65% 0 0 0);
+        animation: glitch-bot 3s infinite linear alternate-reverse;
+      }
+      @keyframes glitch-top {
+        0% {
+          transform: translate(0);
+        }
+        20% {
+          transform: translate(-3px, 3px);
+        }
+        40% {
+          transform: translate(3px, -2px);
+        }
+        60% {
+          transform: translate(-2px, 1px);
+        }
+        80% {
+          transform: translate(2px, -3px);
+        }
+        100% {
+          transform: translate(0);
+        }
+      }
+      @keyframes glitch-bot {
+        0% {
+          transform: translate(0);
+        }
+        25% {
+          transform: translate(3px, 2px);
+        }
+        50% {
+          transform: translate(-3px, -1px);
+        }
+        75% {
+          transform: translate(2px, 3px);
+        }
+        100% {
+          transform: translate(0);
+        }
+      }
+      .typing-line {
+        font-size: clamp(1rem, 2.5vw, 1.6rem);
+        color: var(--cyan);
+        margin: 20px 0 30px;
+        min-height: 40px;
+        font-family: "Rajdhani", sans-serif;
+        font-weight: 500;
+      }
+      .typing-line .cursor-blink {
+        animation: blink 0.7s infinite;
+      }
+      @keyframes blink {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0;
+        }
+      }
+      .cta-btn {
+        display: inline-block;
+        padding: 14px 40px;
+        border: 2px solid var(--cyan);
+        color: var(--cyan);
+        font-family: "Orbitron", sans-serif;
+        font-size: 0.9rem;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s;
+      }
+      .cta-btn:hover {
+        background: var(--cyan);
+        color: var(--bg);
+        box-shadow: 0 0 30px rgba(0, 245, 255, 0.5);
+      }
+      .cta-btn::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(0, 245, 255, 0.2),
+          transparent
+        );
+        transition: left 0.5s;
+      }
+      .cta-btn:hover::before {
+        left: 100%;
+      }
 
-/* ===================== PROFILE ===================== */
-#profile{display:flex;align-items:center;gap:60px;flex-wrap:wrap;justify-content:center}
-.terminal{flex:1;min-width:320px;max-width:600px;background:rgba(0,0,0,.8);border:1px solid rgba(0,245,255,.2);border-radius:12px;overflow:hidden;box-shadow:0 0 30px rgba(0,245,255,.08)}
-.terminal-header{display:flex;align-items:center;gap:8px;padding:12px 16px;background:rgba(0,245,255,.05);border-bottom:1px solid rgba(0,245,255,.1)}
-.terminal-dot{width:12px;height:12px;border-radius:50%}
-.terminal-dot.r{background:#ff5f57}.terminal-dot.y{background:#ffbd2e}.terminal-dot.g{background:#28c840}
-.terminal-header span{color:rgba(255,255,255,.4);font-size:.75rem;margin-left:auto;font-family:'Rajdhani',sans-serif}
-.terminal-body{padding:24px;font-family:'Rajdhani',monospace;font-size:1rem;line-height:1.8;color:var(--cyan);min-height:260px}
-.terminal-body .prompt{color:var(--violet)}
-.terminal-body .key{color:var(--magenta)}
-.terminal-body .val{color:var(--cyan)}
+      /* ===================== PROFILE ===================== */
+      #profile {
+        display: flex;
+        align-items: center;
+        gap: 60px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .terminal {
+        flex: 1;
+        min-width: 320px;
+        max-width: 600px;
+        background: rgba(0, 0, 0, 0.8);
+        border: 1px solid rgba(0, 245, 255, 0.2);
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 0 30px rgba(0, 245, 255, 0.08);
+      }
+      .terminal-header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 16px;
+        background: rgba(0, 245, 255, 0.05);
+        border-bottom: 1px solid rgba(0, 245, 255, 0.1);
+      }
+      .terminal-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+      }
+      .terminal-dot.r {
+        background: #ff5f57;
+      }
+      .terminal-dot.y {
+        background: #ffbd2e;
+      }
+      .terminal-dot.g {
+        background: #28c840;
+      }
+      .terminal-header span {
+        color: rgba(255, 255, 255, 0.4);
+        font-size: 0.75rem;
+        margin-left: auto;
+        font-family: "Rajdhani", sans-serif;
+      }
+      .terminal-body {
+        padding: 24px;
+        font-family: "Rajdhani", monospace;
+        font-size: 1rem;
+        line-height: 1.8;
+        color: var(--cyan);
+        min-height: 260px;
+      }
+      .terminal-body .prompt {
+        color: var(--violet);
+      }
+      .terminal-body .key {
+        color: var(--magenta);
+      }
+      .terminal-body .val {
+        color: var(--cyan);
+      }
 
-.avatar-area{flex:0 0 260px;display:flex;align-items:center;justify-content:center}
-.avatar-circle{width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(0,245,255,.15),transparent 70%);display:flex;align-items:center;justify-content:center;position:relative}
-.avatar-circle::before{content:'';position:absolute;width:220px;height:220px;border-radius:50%;border:2px solid var(--cyan);animation:pulse-ring 2s infinite;opacity:.5}
-.avatar-circle::after{content:'';position:absolute;width:250px;height:250px;border-radius:50%;border:1px solid var(--violet);animation:pulse-ring 2s infinite .5s;opacity:.3}
-@keyframes pulse-ring{0%{transform:scale(.95);opacity:.5}50%{transform:scale(1.05);opacity:.2}100%{transform:scale(.95);opacity:.5}}
-.avatar-text{font-family:'Orbitron',sans-serif;font-size:4rem;font-weight:900;background:linear-gradient(135deg,var(--cyan),var(--violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-shadow:none}
+      .avatar-area {
+        flex: 0 0 260px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .avatar-circle {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          rgba(0, 245, 255, 0.15),
+          transparent 70%
+        );
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+      }
+      .avatar-circle::before {
+        content: "";
+        position: absolute;
+        width: 220px;
+        height: 220px;
+        border-radius: 50%;
+        border: 2px solid var(--cyan);
+        animation: pulse-ring 2s infinite;
+        opacity: 0.5;
+      }
+      .avatar-circle::after {
+        content: "";
+        position: absolute;
+        width: 250px;
+        height: 250px;
+        border-radius: 50%;
+        border: 1px solid var(--violet);
+        animation: pulse-ring 2s infinite 0.5s;
+        opacity: 0.3;
+      }
+      @keyframes pulse-ring {
+        0% {
+          transform: scale(0.95);
+          opacity: 0.5;
+        }
+        50% {
+          transform: scale(1.05);
+          opacity: 0.2;
+        }
+        100% {
+          transform: scale(0.95);
+          opacity: 0.5;
+        }
+      }
+      .avatar-text {
+        font-family: "Orbitron", sans-serif;
+        font-size: 4rem;
+        font-weight: 900;
+        background: linear-gradient(135deg, var(--cyan), var(--violet));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow: none;
+      }
 
-/* ===================== SKILLS ===================== */
-#skills{padding:80px 5vw;position:relative}
-#skills-canvas{width:100%;height:600px;border-radius:16px;border:1px solid rgba(0,245,255,.1);cursor:grab}
-#skill-tooltip{position:fixed;padding:8px 18px;background:rgba(0,0,0,.9);border:1px solid var(--cyan);color:var(--cyan);font-family:'Orbitron',sans-serif;font-size:.8rem;border-radius:6px;pointer-events:none;z-index:100;display:none;box-shadow:0 0 15px rgba(0,245,255,.3)}
+      /* ===================== SKILLS ===================== */
+      #skills {
+        padding: 100px 5vw;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      #skills .section-title {
+        font-size: clamp(2.2rem, 5vw, 3.8rem);
+      }
+      #skills-canvas {
+        width: 90%;
+        max-width: 1200px;
+        height: 750px;
+        border-radius: 16px;
+        border: 1px solid rgba(0, 245, 255, 0.1);
+        cursor: grab;
+      }
+      #skill-tooltip {
+        position: fixed;
+        padding: 8px 18px;
+        background: rgba(0, 0, 0, 0.9);
+        border: 1px solid var(--cyan);
+        color: var(--cyan);
+        font-family: "Orbitron", sans-serif;
+        font-size: 0.8rem;
+        border-radius: 6px;
+        pointer-events: none;
+        z-index: 100;
+        display: none;
+        box-shadow: 0 0 15px rgba(0, 245, 255, 0.3);
+      }
 
-/* ===================== PROJECTS ===================== */
-#projects{padding:100px 5vw}
-.projects-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:40px;max-width:1100px;margin:0 auto}
-.project-card{perspective:1000px;height:380px;position:relative}
-.project-card::before{content:'';position:absolute;inset:-2px;border-radius:18px;background:conic-gradient(from var(--angle,0deg),var(--cyan),var(--violet),var(--magenta),var(--cyan));z-index:-1;animation:rotate-border 4s linear infinite;padding:2px}
-@keyframes rotate-border{to{--angle:360deg}}
-@property --angle{syntax:'<angle>';initial-value:0deg;inherits:false}
-.card-inner{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .6s cubic-bezier(.4,0,.2,1);border-radius:16px}
-.project-card:hover .card-inner{transform:rotateY(180deg)}
-.card-front,.card-back{position:absolute;inset:0;backface-visibility:hidden;border-radius:16px;overflow:hidden;background:rgba(10,10,20,.95);border:1px solid rgba(255,255,255,.05)}
-.card-back{transform:rotateY(180deg);padding:30px;display:flex;flex-direction:column;justify-content:center}
-.browser-bar{display:flex;align-items:center;gap:6px;padding:10px 14px;background:rgba(255,255,255,.03);border-bottom:1px solid rgba(255,255,255,.05)}
-.browser-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.15)}
-.browser-url{margin-left:10px;flex:1;background:rgba(255,255,255,.05);border-radius:4px;padding:4px 10px;font-size:.7rem;color:rgba(255,255,255,.3);font-family:'Rajdhani',sans-serif}
-.browser-body{flex:1;display:flex;align-items:center;justify-content:center;padding:20px}
-.card-front{display:flex;flex-direction:column}
-.card-front .browser-body{flex-direction:column;gap:10px}
-.mock-ui{width:80%;padding:20px;border-radius:8px;text-align:center}
-.card-back h3{font-size:1.3rem;margin-bottom:12px}
-.card-back p{font-size:.95rem;line-height:1.6;color:rgba(255,255,255,.6);margin-bottom:10px}
-.card-back .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto}
-.card-back .tags span{padding:4px 12px;border:1px solid;border-radius:20px;font-size:.75rem;font-family:'Orbitron',sans-serif}
+      /* ===================== PROJECTS ===================== */
+      #projects {
+        padding: 100px 5vw;
+      }
+      .projects-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 40px;
+        max-width: 1100px;
+        margin: 0 auto;
+      }
+      .project-card {
+        perspective: 1000px;
+        height: 380px;
+        position: relative;
+      }
+      .project-card::before {
+        content: "";
+        position: absolute;
+        inset: -2px;
+        border-radius: 18px;
+        background: conic-gradient(
+          from var(--angle, 0deg),
+          var(--cyan),
+          var(--violet),
+          var(--magenta),
+          var(--cyan)
+        );
+        z-index: -1;
+        animation: rotate-border 4s linear infinite;
+        padding: 2px;
+      }
+      @keyframes rotate-border {
+        to {
+          --angle: 360deg;
+        }
+      }
+      @property --angle {
+        syntax: "<angle>";
+        initial-value: 0deg;
+        inherits: false;
+      }
+      .card-inner {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        transform-style: preserve-3d;
+        transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        border-radius: 16px;
+      }
+      .project-card:hover .card-inner {
+        transform: rotateY(180deg);
+      }
+      .card-front,
+      .card-back {
+        position: absolute;
+        inset: 0;
+        backface-visibility: hidden;
+        border-radius: 16px;
+        overflow: hidden;
+        background: rgba(10, 10, 20, 0.95);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+      }
+      .card-back {
+        transform: rotateY(180deg);
+        padding: 30px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .browser-bar {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 10px 14px;
+        background: rgba(255, 255, 255, 0.03);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      }
+      .browser-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.15);
+      }
+      .browser-url {
+        margin-left: 10px;
+        flex: 1;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 4px;
+        padding: 4px 10px;
+        font-size: 0.7rem;
+        color: rgba(255, 255, 255, 0.3);
+        font-family: "Rajdhani", sans-serif;
+      }
+      .browser-body {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+      .card-front {
+        display: flex;
+        flex-direction: column;
+      }
+      .card-front .browser-body {
+        flex-direction: column;
+        gap: 10px;
+      }
+      .mock-ui {
+        width: 80%;
+        padding: 20px;
+        border-radius: 8px;
+        text-align: center;
+      }
+      .card-back h3 {
+        font-size: 1.3rem;
+        margin-bottom: 12px;
+      }
+      .card-back p {
+        font-size: 0.95rem;
+        line-height: 1.6;
+        color: rgba(255, 255, 255, 0.6);
+        margin-bottom: 10px;
+      }
+      .card-back .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: auto;
+      }
+      .card-back .tags span {
+        padding: 4px 12px;
+        border: 1px solid;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-family: "Orbitron", sans-serif;
+      }
 
-/* ===================== EXPERIENCE ===================== */
-#experience{padding:100px 5vw}
-.timeline{position:relative;max-width:900px;margin:0 auto}
-.timeline-line{position:absolute;left:50%;top:0;width:2px;height:100%;background:linear-gradient(180deg,transparent,var(--cyan),var(--violet),var(--magenta),transparent);transform:translateX(-50%);transform-origin:top}
-.timeline-item{position:relative;width:50%;padding:20px 40px;margin-bottom:40px}
-.timeline-item:nth-child(odd){left:0;text-align:right;padding-right:60px}
-.timeline-item:nth-child(even){left:50%;padding-left:60px}
-.timeline-node{position:absolute;width:18px;height:18px;border-radius:50%;background:var(--bg);border:3px solid var(--cyan);top:28px;z-index:2;box-shadow:0 0 15px var(--cyan)}
-.timeline-item:nth-child(odd) .timeline-node{right:-9px}
-.timeline-item:nth-child(even) .timeline-node{left:-9px}
-.timeline-node::after{content:'';position:absolute;inset:-5px;border-radius:50%;border:1px solid var(--cyan);animation:pulse-ring 2s infinite;opacity:.4}
-.timeline-card{background:var(--glass);backdrop-filter:blur(10px);border:1px solid rgba(0,245,255,.1);border-radius:12px;padding:24px;transition:border-color .3s}
-.timeline-card:hover{border-color:var(--cyan)}
-.timeline-card h3{font-size:1rem;color:var(--cyan);margin-bottom:6px}
-.timeline-card .date{font-size:.8rem;color:var(--violet);font-family:'Orbitron',sans-serif;letter-spacing:2px}
-.timeline-card p{margin-top:8px;font-size:.9rem;color:rgba(255,255,255,.55)}
+      /* ===================== EXPERIENCE ===================== */
+      #experience {
+        padding: 100px 5vw;
+      }
+      .timeline {
+        position: relative;
+        max-width: 900px;
+        margin: 0 auto;
+      }
+      .timeline-line {
+        position: absolute;
+        left: 50%;
+        top: 0;
+        width: 2px;
+        height: 100%;
+        background: linear-gradient(
+          180deg,
+          transparent,
+          var(--cyan),
+          var(--violet),
+          var(--magenta),
+          transparent
+        );
+        transform: translateX(-50%);
+        transform-origin: top;
+      }
+      .timeline-item {
+        position: relative;
+        width: 50%;
+        padding: 20px 40px;
+        margin-bottom: 40px;
+      }
+      .timeline-item:nth-child(odd) {
+        left: 0;
+        text-align: right;
+        padding-right: 60px;
+      }
+      .timeline-item:nth-child(even) {
+        left: 50%;
+        padding-left: 60px;
+      }
+      .timeline-node {
+        position: absolute;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: var(--bg);
+        border: 3px solid var(--cyan);
+        top: 28px;
+        z-index: 2;
+        box-shadow: 0 0 15px var(--cyan);
+      }
+      .timeline-item:nth-child(odd) .timeline-node {
+        right: -9px;
+      }
+      .timeline-item:nth-child(even) .timeline-node {
+        left: -9px;
+      }
+      .timeline-node::after {
+        content: "";
+        position: absolute;
+        inset: -5px;
+        border-radius: 50%;
+        border: 1px solid var(--cyan);
+        animation: pulse-ring 2s infinite;
+        opacity: 0.4;
+      }
+      .timeline-card {
+        background: var(--glass);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(0, 245, 255, 0.1);
+        border-radius: 12px;
+        padding: 24px;
+        transition: border-color 0.3s;
+      }
+      .timeline-card:hover {
+        border-color: var(--cyan);
+      }
+      .timeline-card h3 {
+        font-size: 1rem;
+        color: var(--cyan);
+        margin-bottom: 6px;
+      }
+      .timeline-card .date {
+        font-size: 0.8rem;
+        color: var(--violet);
+        font-family: "Orbitron", sans-serif;
+        letter-spacing: 2px;
+      }
+      .timeline-card p {
+        margin-top: 8px;
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.55);
+      }
 
-/* ===================== CONTACT ===================== */
-#contact{padding:100px 5vw;display:flex;align-items:center;justify-content:center}
-.contact-panel{width:100%;max-width:1000px;background:rgba(255,255,255,.03);backdrop-filter:blur(20px);border:1px solid rgba(0,245,255,.1);border-radius:20px;padding:60px;position:relative;overflow:hidden}
-.contact-panel::before{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(0,245,255,.06),rgba(157,0,255,.04),transparent);animation:holo-sweep 4s infinite;pointer-events:none}
-@keyframes holo-sweep{0%{left:-60%}100%{left:120%}}
-.contact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px;margin-bottom:40px}
-.contact-item{display:flex;align-items:center;gap:14px;padding:16px;border-radius:10px;background:rgba(0,245,255,.03);border:1px solid rgba(0,245,255,.08);transition:all .3s}
-.contact-item:hover{border-color:var(--cyan);box-shadow:0 0 20px rgba(0,245,255,.1)}
-.contact-icon{width:42px;height:42px;border-radius:10px;background:linear-gradient(135deg,rgba(0,245,255,.1),rgba(157,0,255,.1));display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
-.contact-info .label{font-size:.7rem;color:var(--violet);font-family:'Orbitron',sans-serif;letter-spacing:2px;text-transform:uppercase}
-.contact-info .value{font-size:.95rem;color:rgba(255,255,255,.8);margin-top:2px;word-break:break-all}
-.beam-btn{display:block;margin:0 auto;padding:18px 50px;background:linear-gradient(135deg,var(--cyan),var(--violet));color:#fff;font-family:'Orbitron',sans-serif;font-size:1rem;letter-spacing:3px;border:none;border-radius:50px;cursor:none;text-transform:uppercase;position:relative;overflow:hidden;transition:all .3s;box-shadow:0 0 30px rgba(0,245,255,.2)}
-.beam-btn:hover{transform:scale(1.05);box-shadow:0 0 50px rgba(0,245,255,.4)}
+      /* ===================== CONTACT ===================== */
+      #contact {
+        padding: 100px 5vw;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .contact-panel {
+        width: 100%;
+        max-width: 1000px;
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(0, 245, 255, 0.1);
+        border-radius: 20px;
+        padding: 60px;
+        position: relative;
+        overflow: hidden;
+      }
+      .contact-panel::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 60%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(0, 245, 255, 0.06),
+          rgba(157, 0, 255, 0.04),
+          transparent
+        );
+        animation: holo-sweep 4s infinite;
+        pointer-events: none;
+      }
+      @keyframes holo-sweep {
+        0% {
+          left: -60%;
+        }
+        100% {
+          left: 120%;
+        }
+      }
+      .contact-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 24px;
+        margin-bottom: 40px;
+      }
+      .contact-item {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 16px;
+        border-radius: 10px;
+        background: rgba(0, 245, 255, 0.03);
+        border: 1px solid rgba(0, 245, 255, 0.08);
+        transition: all 0.3s;
+      }
+      .contact-item:hover {
+        border-color: var(--cyan);
+        box-shadow: 0 0 20px rgba(0, 245, 255, 0.1);
+      }
+      .contact-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 10px;
+        background: linear-gradient(
+          135deg,
+          rgba(0, 245, 255, 0.1),
+          rgba(157, 0, 255, 0.1)
+        );
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        flex-shrink: 0;
+      }
+      .contact-info .label {
+        font-size: 0.7rem;
+        color: var(--violet);
+        font-family: "Orbitron", sans-serif;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+      }
+      .contact-info .value {
+        font-size: 0.95rem;
+        color: rgba(255, 255, 255, 0.8);
+        margin-top: 2px;
+        word-break: break-all;
+      }
+      .beam-btn {
+        display: block;
+        margin: 0 auto;
+        padding: 18px 50px;
+        background: linear-gradient(135deg, var(--cyan), var(--violet));
+        color: #fff;
+        font-family: "Orbitron", sans-serif;
+        font-size: 1rem;
+        letter-spacing: 3px;
+        border: none;
+        border-radius: 50px;
+        cursor: none;
+        text-transform: uppercase;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s;
+        box-shadow: 0 0 30px rgba(0, 245, 255, 0.2);
+      }
+      .beam-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 50px rgba(0, 245, 255, 0.4);
+      }
 
-/* RESPONSIVE */
-@media(max-width:768px){
-  .hero-content{padding-left:2vw}
-  #profile{flex-direction:column}
-  .projects-grid{grid-template-columns:1fr}
-  .timeline-line{left:20px}
-  .timeline-item,.timeline-item:nth-child(even){left:0;width:100%;padding-left:60px;padding-right:20px;text-align:left}
-  .timeline-item:nth-child(odd) .timeline-node,.timeline-item:nth-child(even) .timeline-node{left:11px;right:auto}
-  .contact-panel{padding:30px 20px}
-  #skills-canvas{height:400px}
-  #cursor-dot,#cursor-ring{display:none}
-  body{cursor:auto}
-}
-</style>
-</head>
-<body>
+      /* ===================== ABOUT ME ===================== */
+      .about-card {
+        max-width: 700px;
+        width: 100%;
+        margin: 0 auto;
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(0, 245, 255, 0.1);
+        border-radius: 16px;
+        padding: 40px;
+        box-shadow: 0 0 20px rgba(0, 245, 255, 0.05);
+        position: relative;
+        transition: all 0.3s ease;
+      }
+      .about-card:hover {
+        border-color: var(--cyan);
+        box-shadow: 0 0 40px rgba(0, 245, 255, 0.15);
+        transform: translateY(-5px);
+      }
 
-<div id="scroll-progress"></div>
-<div id="cursor-dot"></div>
-<div id="cursor-ring"></div>
-<div id="skill-tooltip"></div>
+      /* RESPONSIVE */
+      @media (max-width: 768px) {
+        .hero-content {
+          padding-left: 2vw;
+        }
+        #profile {
+          flex-direction: column;
+        }
+        .projects-grid {
+          grid-template-columns: 1fr;
+        }
+        .timeline-line {
+          left: 20px;
+        }
+        .timeline-item,
+        .timeline-item:nth-child(even) {
+          left: 0;
+          width: 100%;
+          padding-left: 60px;
+          padding-right: 20px;
+          text-align: left;
+        }
+        .timeline-item:nth-child(odd) .timeline-node,
+        .timeline-item:nth-child(even) .timeline-node {
+          left: 11px;
+          right: auto;
+        }
+        .contact-panel {
+          padding: 30px 20px;
+        }
+        #skills-canvas {
+          width: 100%;
+          height: 450px;
+        }
+        #cursor-dot,
+        #cursor-ring {
+          display: none;
+        }
+        body {
+          cursor: auto;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="scroll-progress"></div>
+    <div id="cursor-dot"></div>
+    <div id="cursor-ring"></div>
+    <div id="skill-tooltip"></div>
 
-<!-- HERO -->
-<section id="hero">
-  <canvas id="hero-canvas"></canvas>
-  <div class="hero-content">
-    <h1><span class="glitch" data-text="RONAK JANGID">RONAK JANGID</span></h1>
-    <div class="typing-line"><span id="typed-text"></span><span class="cursor-blink">|</span></div>
-    <a href="#contact" class="cta-btn">Initialize Contact</a>
-  </div>
-</section>
-
-<!-- PROFILE -->
-<section id="profile">
-  <div class="section-header" style="width:100%;text-align:center;margin-bottom:40px">
-    <div class="section-tag">// INIT_PROFILE</div>
-    <div class="section-title">System.init()</div>
-  </div>
-  <div style="display:flex;align-items:center;gap:60px;flex-wrap:wrap;justify-content:center;width:100%">
-    <div class="terminal">
-      <div class="terminal-header">
-        <div class="terminal-dot r"></div><div class="terminal-dot y"></div><div class="terminal-dot g"></div>
-        <span>ronak@portfolio:~</span>
+    <!-- HERO -->
+    <section id="hero">
+      <canvas id="hero-canvas"></canvas>
+      <div class="hero-content">
+        <h1>
+          <span class="glitch" data-text="RONAK JANGID">RONAK JANGID</span>
+        </h1>
+        <div class="typing-line">
+          <span id="typed-text"></span><span class="cursor-blink">|</span>
+        </div>
+        <a href="#contact" class="cta-btn">Initialize Contact</a>
+        <a href="resume.pdf" download class="cta-btn">Download Resume</a>
       </div>
-      <div class="terminal-body" id="terminal-output"></div>
-    </div>
-    <div class="avatar-area">
-      <div class="avatar-circle"><span class="avatar-text">RJ</span></div>
-    </div>
-  </div>
-</section>
+    </section>
 
-<!-- SKILLS -->
-<section id="skills">
-  <div style="text-align:center">
-    <div class="section-tag">// SKILL_MATRIX</div>
-    <div class="section-title">Skill Solar System</div>
-  </div>
-  <canvas id="skills-canvas"></canvas>
-</section>
+    <!-- PROFILE -->
+    <section id="profile">
+      <div
+        class="section-header"
+        style="width: 100%; text-align: center; margin-bottom: 40px"
+      >
+        <div class="section-tag">// INIT_PROFILE</div>
+        <div class="section-title">System.init()</div>
+      </div>
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          gap: 60px;
+          flex-wrap: wrap;
+          justify-content: center;
+          width: 100%;
+        "
+      >
+        <div class="terminal">
+          <div class="terminal-header">
+            <div class="terminal-dot r"></div>
+            <div class="terminal-dot y"></div>
+            <div class="terminal-dot g"></div>
+            <span>ronak@portfolio:~</span>
+          </div>
+          <div class="terminal-body" id="terminal-output"></div>
+        </div>
+        <div class="avatar-area">
+          <div class="avatar-circle"><span class="avatar-text">RJ</span></div>
+        </div>
+      </div>
+    </section>
 
-<!-- PROJECTS -->
-<section id="projects">
-  <div style="text-align:center">
-    <div class="section-tag">// PROJECTS_DB</div>
-    <div class="section-title">Project Archives</div>
-  </div>
-  <div class="projects-grid">
-    <div class="project-card">
-      <div class="card-inner">
-        <div class="card-front">
-          <div class="browser-bar"><div class="browser-dot"></div><div class="browser-dot"></div><div class="browser-dot"></div><div class="browser-url">spotify-clone.app</div></div>
-          <div class="browser-body">
-            <div class="mock-ui" style="border:1px solid #1db954;background:rgba(29,185,84,.05)">
-              <div style="width:50px;height:50px;border-radius:50%;background:#1db954;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-size:1.5rem">▶</div>
-              <div style="font-family:'Orbitron';font-size:.8rem;color:#1db954">SPOTIFY UI CLONE</div>
-              <div style="margin-top:10px;height:4px;background:rgba(29,185,84,.2);border-radius:2px"><div style="width:60%;height:100%;background:#1db954;border-radius:2px"></div></div>
+    <!-- ABOUT ME -->
+    <section id="about">
+      <div style="width: 100%; text-align: center; margin-bottom: 40px">
+        <div class="section-tag">// WHO_AM_I</div>
+        <div class="section-title">Who Am I</div>
+      </div>
+      <div class="about-card">
+        <p style="font-family: 'Rajdhani', sans-serif; font-size: 1.25rem; line-height: 1.8; color: rgba(255, 255, 255, 0.85); font-weight: 500; text-align: center; margin: 0;">
+          "I am a Computer Science student at JECRC Foundation, focused on frontend development and building modern, responsive web interfaces. I enjoy turning ideas into interactive digital experiences and continuously improving my skills in web technologies."
+        </p>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills">
+      <div style="text-align: center">
+        <div class="section-tag">// SKILL_MATRIX</div>
+        <div class="section-title">Skill Solar System</div>
+      </div>
+      <canvas id="skills-canvas"></canvas>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects">
+      <div style="text-align: center">
+        <div class="section-tag">// PROJECTS_DB</div>
+        <div class="section-title">Project Archives</div>
+      </div>
+      <div class="projects-grid">
+        <div class="project-card">
+          <div class="card-inner">
+            <div class="card-front">
+              <div class="browser-bar">
+                <div class="browser-dot"></div>
+                <div class="browser-dot"></div>
+                <div class="browser-dot"></div>
+                <div class="browser-url">spotify-clone.app</div>
+              </div>
+              <div class="browser-body">
+                <div
+                  class="mock-ui"
+                  style="
+                    border: 1px solid #1db954;
+                    background: rgba(29, 185, 84, 0.05);
+                  "
+                >
+                  <div
+                    style="
+                      width: 50px;
+                      height: 50px;
+                      border-radius: 50%;
+                      background: #1db954;
+                      margin: 0 auto 10px;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      font-size: 1.5rem;
+                    "
+                  >
+                    ▶
+                  </div>
+                  <div
+                    style="
+                      font-family: &quot;Orbitron&quot;;
+                      font-size: 0.8rem;
+                      color: #1db954;
+                    "
+                  >
+                    SPOTIFY UI CLONE
+                  </div>
+                  <div
+                    style="
+                      margin-top: 10px;
+                      height: 4px;
+                      background: rgba(29, 185, 84, 0.2);
+                      border-radius: 2px;
+                    "
+                  >
+                    <div
+                      style="
+                        width: 60%;
+                        height: 100%;
+                        background: #1db954;
+                        border-radius: 2px;
+                      "
+                    ></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card-back">
+              <h3 style="color: #1db954">Spotify UI Clone</h3>
+              <p>
+                A pixel-perfect recreation of the Spotify web player interface
+                with responsive design, music player UI, playlists, and smooth
+                navigation.
+              </p>
+              <div class="tags">
+                <span style="border-color: #1db954; color: #1db954">HTML5</span
+                ><span style="border-color: #1db954; color: #1db954">CSS3</span
+                ><span style="border-color: #1db954; color: #1db954"
+                  >Responsive</span
+                >
+              </div>
+              <div style="margin-top: 15px; display: flex; gap: 10px;">
+                <a href="https://ronak666-gif.github.io/spotify-clone/" target="_blank" style="padding: 6px 12px; border: 1px solid #1db954; border-radius: 4px; color: #1db954; text-decoration: none; font-size: 0.8rem; font-family: 'Orbitron', sans-serif; transition: all 0.3s;">Live Demo</a>
+                <a href="https://github.com/Ronak666-gif/spotify-clone" target="_blank" style="padding: 6px 12px; border: 1px solid rgba(255,255,255,0.3); border-radius: 4px; color: #e0e0e0; text-decoration: none; font-size: 0.8rem; font-family: 'Orbitron', sans-serif; transition: all 0.3s;">GitHub</a>
+              </div>
             </div>
           </div>
         </div>
-        <div class="card-back">
-          <h3 style="color:#1db954">Spotify UI Clone</h3>
-          <p>A pixel-perfect recreation of the Spotify web player interface with responsive design, music player UI, playlists, and smooth navigation.</p>
-          <div class="tags"><span style="border-color:#1db954;color:#1db954">HTML5</span><span style="border-color:#1db954;color:#1db954">CSS3</span><span style="border-color:#1db954;color:#1db954">Responsive</span></div>
-        </div>
-      </div>
-    </div>
-    <div class="project-card">
-      <div class="card-inner">
-        <div class="card-front">
-          <div class="browser-bar"><div class="browser-dot"></div><div class="browser-dot"></div><div class="browser-dot"></div><div class="browser-url">landing-page.dev</div></div>
-          <div class="browser-body">
-            <div class="mock-ui" style="border:1px solid var(--cyan);background:rgba(0,245,255,.03)">
-              <div style="font-family:'Orbitron';font-size:.7rem;color:var(--cyan);margin-bottom:8px">◆ LANDING PAGE</div>
-              <div style="display:flex;gap:6px;justify-content:center;margin-bottom:8px"><div style="flex:1;height:3px;background:var(--cyan);border-radius:2px;opacity:.6"></div><div style="flex:1;height:3px;background:var(--violet);border-radius:2px;opacity:.4"></div><div style="flex:1;height:3px;background:var(--magenta);border-radius:2px;opacity:.3"></div></div>
-              <div style="font-size:.65rem;color:rgba(255,255,255,.3)">Fully Responsive Design</div>
+        <div class="project-card">
+          <div class="card-inner">
+            <div class="card-front">
+              <div class="browser-bar">
+                <div class="browser-dot"></div>
+                <div class="browser-dot"></div>
+                <div class="browser-dot"></div>
+                <div class="browser-url">landing-page.dev</div>
+              </div>
+              <div class="browser-body">
+                <div
+                  class="mock-ui"
+                  style="
+                    border: 1px solid var(--cyan);
+                    background: rgba(0, 245, 255, 0.03);
+                  "
+                >
+                  <div
+                    style="
+                      font-family: &quot;Orbitron&quot;;
+                      font-size: 0.7rem;
+                      color: var(--cyan);
+                      margin-bottom: 8px;
+                    "
+                  >
+                    ◆ LANDING PAGE
+                  </div>
+                  <div
+                    style="
+                      display: flex;
+                      gap: 6px;
+                      justify-content: center;
+                      margin-bottom: 8px;
+                    "
+                  >
+                    <div
+                      style="
+                        flex: 1;
+                        height: 3px;
+                        background: var(--cyan);
+                        border-radius: 2px;
+                        opacity: 0.6;
+                      "
+                    ></div>
+                    <div
+                      style="
+                        flex: 1;
+                        height: 3px;
+                        background: var(--violet);
+                        border-radius: 2px;
+                        opacity: 0.4;
+                      "
+                    ></div>
+                    <div
+                      style="
+                        flex: 1;
+                        height: 3px;
+                        background: var(--magenta);
+                        border-radius: 2px;
+                        opacity: 0.3;
+                      "
+                    ></div>
+                  </div>
+                  <div
+                    style="font-size: 0.65rem; color: rgba(255, 255, 255, 0.3)"
+                  >
+                    Fully Responsive Design
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card-back">
+              <h3 style="color: var(--cyan)">Responsive Landing Page</h3>
+              <p>
+                A modern, fully responsive landing page built with mobile-first
+                approach, smooth animations, and cross-browser compatibility.
+              </p>
+              <div class="tags">
+                <span style="border-color: var(--cyan); color: var(--cyan)"
+                  >HTML5</span
+                ><span style="border-color: var(--cyan); color: var(--cyan)"
+                  >CSS3</span
+                ><span style="border-color: var(--cyan); color: var(--cyan)"
+                  >JavaScript</span
+                >
+              </div>
+              <div style="margin-top: 15px; display: flex; gap: 10px;">
+                <a href="https://ronak666-gif.github.io/codsoft-landing-page/" target="_blank" style="padding: 6px 12px; border: 1px solid var(--cyan); border-radius: 4px; color: var(--cyan); text-decoration: none; font-size: 0.8rem; font-family: 'Orbitron', sans-serif; transition: all 0.3s;">Live Demo</a>
+                <a href="https://github.com/Ronak666-gif/codsoft-landing-page/" target="_blank" style="padding: 6px 12px; border: 1px solid rgba(255,255,255,0.3); border-radius: 4px; color: #e0e0e0; text-decoration: none; font-size: 0.8rem; font-family: 'Orbitron', sans-serif; transition: all 0.3s;">GitHub</a>
+              </div>
             </div>
           </div>
         </div>
-        <div class="card-back">
-          <h3 style="color:var(--cyan)">Responsive Landing Page</h3>
-          <p>A modern, fully responsive landing page built with mobile-first approach, smooth animations, and cross-browser compatibility.</p>
-          <div class="tags"><span style="border-color:var(--cyan);color:var(--cyan)">HTML5</span><span style="border-color:var(--cyan);color:var(--cyan)">CSS3</span><span style="border-color:var(--cyan);color:var(--cyan)">JavaScript</span></div>
+      </div>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section id="experience">
+      <div style="text-align: center">
+        <div class="section-tag">// EXP_LOGS</div>
+        <div class="section-title">Experience Timeline</div>
+      </div>
+      <div class="timeline">
+        <div class="timeline-line" id="timeline-line-fill"></div>
+        <div class="timeline-item">
+          <div class="timeline-node"></div>
+          <div class="timeline-card">
+            <div class="date">2024 — 2028</div>
+            <h3>B.Tech CSE — JECRC Foundation</h3>
+            <p>
+              Pursuing Computer Science & Engineering with focus on web
+              technologies and software development.
+            </p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-node"></div>
+          <div class="timeline-card">
+            <div class="date">June — July 2025</div>
+            <h3>Web Development Intern — CodSoft</h3>
+            <p>
+              Built responsive web applications and UI components during
+              intensive internship program.
+            </p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-node"></div>
+          <div class="timeline-card">
+            <div class="date">2024</div>
+            <h3>Technology Virtual Internship — Deloitte (Forage)</h3>
+            <p>
+              Completed virtual experience program focused on technology
+              consulting and development workflows.
+            </p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-node"></div>
+          <div class="timeline-card">
+            <div class="date">2025</div>
+            <h3>Web Development Certificate — CodSoft</h3>
+            <p>
+              Earned certification for successful completion of web development
+              training and project delivery.
+            </p>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
-</section>
+    </section>
 
-<!-- EXPERIENCE -->
-<section id="experience">
-  <div style="text-align:center">
-    <div class="section-tag">// EXP_LOGS</div>
-    <div class="section-title">Experience Timeline</div>
-  </div>
-  <div class="timeline">
-    <div class="timeline-line" id="timeline-line-fill"></div>
-    <div class="timeline-item"><div class="timeline-node"></div><div class="timeline-card"><div class="date">2024 — 2028</div><h3>B.Tech CSE — JECRC University</h3><p>Pursuing Computer Science & Engineering with focus on web technologies and software development.</p></div></div>
-    <div class="timeline-item"><div class="timeline-node"></div><div class="timeline-card"><div class="date">June — July 2025</div><h3>Web Development Intern — CodSoft</h3><p>Built responsive web applications and UI components during intensive internship program.</p></div></div>
-    <div class="timeline-item"><div class="timeline-node"></div><div class="timeline-card"><div class="date">2024</div><h3>Technology Virtual Internship — Deloitte (Forage)</h3><p>Completed virtual experience program focused on technology consulting and development workflows.</p></div></div>
-    <div class="timeline-item"><div class="timeline-node"></div><div class="timeline-card"><div class="date">2025</div><h3>Web Development Certificate — CodSoft</h3><p>Earned certification for successful completion of web development training and project delivery.</p></div></div>
-  </div>
-</section>
+    <!-- CONTACT -->
+    <section id="contact">
+      <div style="width: 100%; text-align: center; margin-bottom: 20px">
+        <div class="section-tag">// COMM_LINK</div>
+        <div class="section-title">Open Channel</div>
+      </div>
+      <div class="contact-panel">
+        <div class="contact-grid">
+          <div class="contact-item">
+            <div class="contact-icon">📞</div>
+            <div class="contact-info">
+              <div class="label">Phone</div>
+              <div class="value">+91-7240245166</div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">✉️</div>
+            <div class="contact-info">
+              <div class="label">Email</div>
+              <div class="value">ronakjangid666@gmail.com</div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">📍</div>
+            <div class="contact-info">
+              <div class="label">Location</div>
+              <div class="value">Jaipur, Rajasthan</div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">🔗</div>
+            <div class="contact-info">
+              <div class="label">GitHub</div>
+              <div class="value">
+                <a href="https://github.com/Ronak666-gif" target="_blank"
+                  >github.com/Ronak666-gif</a
+                >
+              </div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">💼</div>
+            <div class="contact-info">
+              <div class="label">LinkedIn</div>
+              <div class="value">
+                <a
+                  href="https://www.linkedin.com/in/ronak-jangid-b402a0353?utm_source=share_via&utm_content=profile&utm_medium=member_android"
+                  target="_blank"
+                  >linkedin.com/in/ronak-jangid</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <a href="mailto:ronakjangid666@gmail.com" class="beam-btn"
+          >⚡ Beam Me A Message</a
+        >
+      </div>
+    </section>
 
-<!-- CONTACT -->
-<section id="contact">
-  <div style="width:100%;text-align:center;margin-bottom:20px">
-    <div class="section-tag">// COMM_LINK</div>
-    <div class="section-title">Open Channel</div>
-  </div>
-  <div class="contact-panel">
-    <div class="contact-grid">
-      <div class="contact-item"><div class="contact-icon">📞</div><div class="contact-info"><div class="label">Phone</div><div class="value">+91-7240245660</div></div></div>
-      <div class="contact-item"><div class="contact-icon">✉️</div><div class="contact-info"><div class="label">Email</div><div class="value">ronakjangid666@gmail.com</div></div></div>
-      <div class="contact-item"><div class="contact-icon">📍</div><div class="contact-info"><div class="label">Location</div><div class="value">Jaipur, Rajasthan</div></div></div>
-      <div class="contact-item"><div class="contact-icon">🔗</div><div class="contact-info"><div class="label">GitHub</div><div class="value"><a href="https://github.com/Ronak666-gif" target="_blank">github.com/Ronak666-gif</a></div></div></div>
-      <div class="contact-item"><div class="contact-icon">💼</div><div class="contact-info"><div class="label">LinkedIn</div><div class="value"><a href="https://linkedin.com/in/ronak-jangid" target="_blank">linkedin.com/in/ronak-jangid</a></div></div></div>
-    </div>
-    <a href="mailto:ronakjangid666@gmail.com" class="beam-btn">⚡ Beam Me A Message</a>
-  </div>
-</section>
+    <script>
+      /* ============ LENIS SMOOTH SCROLL ============ */
+      const lenis = new Lenis({
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      });
+      function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+      }
+      requestAnimationFrame(raf);
+      lenis.on("scroll", ScrollTrigger.update);
+      gsap.ticker.add((t) => {
+        lenis.raf(t * 1000);
+      });
+      gsap.ticker.lagSmoothing(0);
 
-<script>
-/* ============ LENIS SMOOTH SCROLL ============ */
-const lenis = new Lenis({duration:1.2,easing:t=>Math.min(1,1.001-Math.pow(2,-10*t))});
-function raf(time){lenis.raf(time);requestAnimationFrame(raf)}
-requestAnimationFrame(raf);
-lenis.on('scroll',ScrollTrigger.update);
-gsap.ticker.add(t=>{lenis.raf(t*1000)});
-gsap.ticker.lagSmoothing(0);
+      /* ============ SCROLL PROGRESS ============ */
+      window.addEventListener("scroll", () => {
+        const h = document.documentElement;
+        const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+        document.getElementById("scroll-progress").style.width = pct + "%";
+      });
 
-/* ============ SCROLL PROGRESS ============ */
-window.addEventListener('scroll',()=>{
-  const h=document.documentElement;
-  const pct=h.scrollTop/(h.scrollHeight-h.clientHeight)*100;
-  document.getElementById('scroll-progress').style.width=pct+'%';
-});
+      /* ============ CUSTOM CURSOR ============ */
+      const dot = document.getElementById("cursor-dot"),
+        ring = document.getElementById("cursor-ring");
+      let mx = 0,
+        my = 0,
+        rx = 0,
+        ry = 0;
+      document.addEventListener("mousemove", (e) => {
+        mx = e.clientX;
+        my = e.clientY;
+        dot.style.left = mx + "px";
+        dot.style.top = my + "px";
+      });
+      (function movRing() {
+        rx += (mx - rx) * 0.15;
+        ry += (my - ry) * 0.15;
+        ring.style.left = rx + "px";
+        ring.style.top = ry + "px";
+        requestAnimationFrame(movRing);
+      })();
 
-/* ============ CUSTOM CURSOR ============ */
-const dot=document.getElementById('cursor-dot'),ring=document.getElementById('cursor-ring');
-let mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px'});
-(function movRing(){rx+=(mx-rx)*.15;ry+=(my-ry)*.15;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(movRing)})();
+      /* ============ EMBERS ============ */
+      for (let i = 0; i < 15; i++) {
+        const e = document.createElement("div");
+        e.className = "ember";
+        e.style.left = Math.random() * 100 + "vw";
+        e.style.animationDelay = Math.random() * 6 + "s";
+        e.style.animationDuration = 4 + Math.random() * 4 + "s";
+        document.body.appendChild(e);
+      }
 
-/* ============ EMBERS ============ */
-for(let i=0;i<15;i++){const e=document.createElement('div');e.className='ember';e.style.left=Math.random()*100+'vw';e.style.animationDelay=Math.random()*6+'s';e.style.animationDuration=(4+Math.random()*4)+'s';document.body.appendChild(e)}
+      /* ============ HERO THREE.JS ============ */
+      (function () {
+        const canvas = document.getElementById("hero-canvas");
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(
+          75,
+          window.innerWidth / window.innerHeight,
+          0.1,
+          1000,
+        );
+        camera.position.z = 5;
+        const renderer = new THREE.WebGLRenderer({
+          canvas,
+          alpha: true,
+          antialias: true,
+        });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-/* ============ HERO THREE.JS ============ */
-(function(){
-  const canvas=document.getElementById('hero-canvas');
-  const scene=new THREE.Scene();
-  const camera=new THREE.PerspectiveCamera(75,window.innerWidth/window.innerHeight,.1,1000);
-  camera.position.z=5;
-  const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true});
-  renderer.setSize(window.innerWidth,window.innerHeight);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+        // Starfield
+        const starGeo = new THREE.BufferGeometry();
+        const starPos = new Float32Array(5000 * 3);
+        for (let i = 0; i < 5000 * 3; i++)
+          starPos[i] = (Math.random() - 0.5) * 60;
+        starGeo.setAttribute("position", new THREE.BufferAttribute(starPos, 3));
+        const starMat = new THREE.PointsMaterial({
+          color: 0x00f5ff,
+          size: 0.06,
+          transparent: true,
+          opacity: 0.8,
+        });
+        const stars = new THREE.Points(starGeo, starMat);
+        scene.add(stars);
 
-  // Starfield
-  const starGeo=new THREE.BufferGeometry();
-  const starPos=new Float32Array(5000*3);
-  for(let i=0;i<5000*3;i++)starPos[i]=(Math.random()-.5)*60;
-  starGeo.setAttribute('position',new THREE.BufferAttribute(starPos,3));
-  const starMat=new THREE.PointsMaterial({color:0x00f5ff,size:.06,transparent:true,opacity:.8});
-  const stars=new THREE.Points(starGeo,starMat);
-  scene.add(stars);
+        // Torus Knot — RIGHT side
+        const tkGeo = new THREE.TorusKnotGeometry(1.4, 0.4, 120, 16, 2, 3);
+        const tkMat = new THREE.MeshBasicMaterial({
+          color: 0x9d00ff,
+          wireframe: true,
+          transparent: true,
+          opacity: 0.5,
+        });
+        const torus = new THREE.Mesh(tkGeo, tkMat);
+        torus.position.set(4, 0, 0);
+        scene.add(torus);
 
-  // Torus Knot — RIGHT side
-  const tkGeo=new THREE.TorusKnotGeometry(1.4,.4,120,16,2,3);
-  const tkMat=new THREE.MeshBasicMaterial({color:0x9d00ff,wireframe:true,transparent:true,opacity:.5});
-  const torus=new THREE.Mesh(tkGeo,tkMat);
-  torus.position.set(4,0,0);
-  scene.add(torus);
+        function animHero() {
+          requestAnimationFrame(animHero);
+          stars.rotation.y += 0.0003;
+          stars.rotation.x += 0.0001;
+          torus.rotation.x += 0.005;
+          torus.rotation.y += 0.008;
+          renderer.render(scene, camera);
+        }
+        animHero();
 
-  function animHero(){
-    requestAnimationFrame(animHero);
-    stars.rotation.y+=.0003;stars.rotation.x+=.0001;
-    torus.rotation.x+=.005;torus.rotation.y+=.008;
-    renderer.render(scene,camera);
-  }
-  animHero();
+        window.addEventListener("resize", () => {
+          camera.aspect = window.innerWidth / window.innerHeight;
+          camera.updateProjectionMatrix();
+          renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+      })();
 
-  window.addEventListener('resize',()=>{
-    camera.aspect=window.innerWidth/window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth,window.innerHeight);
-  });
-})();
+      /* ============ TYPING SUBTITLE ============ */
+      (function () {
+        const words = ["Web Developer", "Frontend Engineer", "UI Craftsman"];
+        let wi = 0,
+          ci = 0,
+          del = false;
+        const el = document.getElementById("typed-text");
+        function type() {
+          const w = words[wi];
+          if (!del) {
+            el.textContent = w.slice(0, ++ci);
+            if (ci === w.length) {
+              del = true;
+              setTimeout(type, 1800);
+              return;
+            }
+            setTimeout(type, 80);
+          } else {
+            el.textContent = w.slice(0, --ci);
+            if (ci === 0) {
+              del = false;
+              wi = (wi + 1) % words.length;
+              setTimeout(type, 400);
+              return;
+            }
+            setTimeout(type, 40);
+          }
+        }
+        type();
+      })();
 
-/* ============ TYPING SUBTITLE ============ */
-(function(){
-  const words=['Web Developer','Frontend Engineer','UI Craftsman'];
-  let wi=0,ci=0,del=false;
-  const el=document.getElementById('typed-text');
-  function type(){
-    const w=words[wi];
-    if(!del){
-      el.textContent=w.slice(0,++ci);
-      if(ci===w.length){del=true;setTimeout(type,1800);return}
-      setTimeout(type,80);
-    }else{
-      el.textContent=w.slice(0,--ci);
-      if(ci===0){del=false;wi=(wi+1)%words.length;setTimeout(type,400);return}
-      setTimeout(type,40);
-    }
-  }
-  type();
-})();
+      /* ============ TERMINAL TYPEWRITER ============ */
+      (function () {
+        const lines = [
+          { prompt: "ronak@system:~$ ", text: "cat profile.json" },
+          { prompt: "", text: "{" },
+          { prompt: "  ", key: '"name"', text: ': "Ronak Jangid",' },
+          { prompt: "  ", key: '"location"', text: ': "Jaipur, Rajasthan",' },
+          { prompt: "  ", key: '"role"', text: ': "Web Developer",' },
+          { prompt: "  ", key: '"college"', text: ': "JECRC Foundation",' },
+          {
+            prompt: "  ",
+            key: '"mission"',
+            text: ': "Craft stunning digital experiences"',
+          },
+          { prompt: "", text: "}" },
+        ];
+        const el = document.getElementById("terminal-output");
+        let li = 0;
+        function typeLine() {
+          if (li >= lines.length) return;
+          const l = lines[li];
+          const div = document.createElement("div");
+          let html = "";
+          if (l.prompt) html += '<span class="prompt">' + l.prompt + "</span>";
+          if (l.key) html += '<span class="key">' + l.key + "</span>";
+          html += '<span class="val"></span>';
+          div.innerHTML = html;
+          el.appendChild(div);
+          const valEl = div.querySelector(".val");
+          let ci = 0;
+          function tc() {
+            if (ci <= l.text.length) {
+              valEl.textContent = l.text.slice(0, ci++);
+              setTimeout(tc, 25);
+            } else {
+              li++;
+              setTimeout(typeLine, 150);
+            }
+          }
+          tc();
+        }
+        ScrollTrigger.create({
+          trigger: "#profile",
+          start: "top 80%",
+          onEnter: typeLine,
+          once: true,
+        });
+      })();
 
-/* ============ TERMINAL TYPEWRITER ============ */
-(function(){
-  const lines=[
-    {prompt:'ronak@system:~$ ',text:'cat profile.json'},
-    {prompt:'',text:'{'},
-    {prompt:'  ',key:'"name"',text:': "Ronak Jangid",'},
-    {prompt:'  ',key:'"location"',text:': "Jaipur, Rajasthan",'},
-    {prompt:'  ',key:'"role"',text:': "Web Developer",'},
-    {prompt:'  ',key:'"college"',text:': "JECRC University",'},
-    {prompt:'  ',key:'"mission"',text:': "Craft stunning digital experiences"'},
-    {prompt:'',text:'}'}
-  ];
-  const el=document.getElementById('terminal-output');
-  let li=0;
-  function typeLine(){
-    if(li>=lines.length)return;
-    const l=lines[li];
-    const div=document.createElement('div');
-    let html='';
-    if(l.prompt)html+='<span class="prompt">'+l.prompt+'</span>';
-    if(l.key)html+='<span class="key">'+l.key+'</span>';
-    html+='<span class="val"></span>';
-    div.innerHTML=html;
-    el.appendChild(div);
-    const valEl=div.querySelector('.val');
-    let ci=0;
-    function tc(){
-      if(ci<=l.text.length){valEl.textContent=l.text.slice(0,ci++);setTimeout(tc,25)}
-      else{li++;setTimeout(typeLine,150)}
-    }
-    tc();
-  }
-  ScrollTrigger.create({trigger:'#profile',start:'top 80%',onEnter:typeLine,once:true});
-})();
+      /* ============ ABOUT SECTION GSAP ============ */
+      gsap.from("#about .about-card", {
+        scrollTrigger: {
+          trigger: "#about",
+          start: "top 80%",
+        },
+        y: 60,
+        opacity: 0,
+        duration: 1.2,
+        ease: "power3.out"
+      });
 
-/* ============ SKILLS SOLAR SYSTEM ============ */
-(function(){
-  const canvas=document.getElementById('skills-canvas');
-  const scene=new THREE.Scene();
-  const w=canvas.clientWidth,h=canvas.clientHeight;
-  const camera=new THREE.PerspectiveCamera(60,w/h,.1,1000);
-  camera.position.set(0,6,14);
-  const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true});
-  renderer.setSize(w,h);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+      /* ============ SKILLS SOLAR SYSTEM ============ */
+      (function () {
+        const canvas = document.getElementById("skills-canvas");
+        const scene = new THREE.Scene();
+        const w = canvas.clientWidth,
+          h = canvas.clientHeight;
+        const camera = new THREE.PerspectiveCamera(60, w / h, 0.1, 1000);
+        camera.position.set(0, 3.4, 8.2);
+        const renderer = new THREE.WebGLRenderer({
+          canvas,
+          alpha: true,
+          antialias: true,
+        });
+        renderer.setSize(w, h);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-  const controls=new THREE.OrbitControls(camera,canvas);
-  controls.enableDamping=true;controls.dampingFactor=.05;controls.enableZoom=false;controls.autoRotate=true;controls.autoRotateSpeed=1.5;
+        const controls = new THREE.OrbitControls(camera, canvas);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+        controls.enableZoom = false;
+        controls.autoRotate = true;
+        controls.autoRotateSpeed = 1.5;
 
-  // Center sphere
-  const centerGeo=new THREE.SphereGeometry(1.2,32,32);
-  const centerMat=new THREE.MeshBasicMaterial({color:0x00f5ff,transparent:true,opacity:.3,wireframe:true});
-  const centerSphere=new THREE.Mesh(centerGeo,centerMat);
-  scene.add(centerSphere);
-  const glowGeo=new THREE.SphereGeometry(1.4,32,32);
-  const glowMat=new THREE.MeshBasicMaterial({color:0x00f5ff,transparent:true,opacity:.08});
-  scene.add(new THREE.Mesh(glowGeo,glowMat));
+        // Center sphere
+        const centerGeo = new THREE.SphereGeometry(1.2, 32, 32);
+        const centerMat = new THREE.MeshBasicMaterial({
+          color: 0x00f5ff,
+          transparent: true,
+          opacity: 0.3,
+          wireframe: true,
+        });
+        const centerSphere = new THREE.Mesh(centerGeo, centerMat);
+        scene.add(centerSphere);
+        const glowGeo = new THREE.SphereGeometry(1.4, 32, 32);
+        const glowMat = new THREE.MeshBasicMaterial({
+          color: 0x00f5ff,
+          transparent: true,
+          opacity: 0.08,
+        });
+        scene.add(new THREE.Mesh(glowGeo, glowMat));
 
-  // Center label
-  const cLabel=makeLabel('RONAK','#00f5ff');
-  cLabel.position.set(0,1.8,0);
-  scene.add(cLabel);
+        // Center label
+        const cLabel = makeLabel("RONAK", "#00f5ff");
+        cLabel.position.set(0, 1.8, 0);
+        scene.add(cLabel);
 
-  const skills=[
-    {name:'HTML5',color:'#e34f26',dist:3.2,tilt:.1,speed:.8},
-    {name:'CSS3',color:'#2965f1',dist:3.8,tilt:.3,speed:.7},
-    {name:'JavaScript',color:'#f7df1e',dist:4.4,tilt:-.2,speed:.6},
-    {name:'Flexbox',color:'#ff8c00',dist:5,tilt:.4,speed:.55},
-    {name:'Responsive',color:'#28c840',dist:5.6,tilt:-.3,speed:.5},
-    {name:'Git/GitHub',color:'#9d00ff',dist:6.2,tilt:.2,speed:.45},
-    {name:'VS Code',color:'#4b0082',dist:6.8,tilt:-.4,speed:.4},
-    {name:'C',color:'#ff69b4',dist:7.4,tilt:.35,speed:.35},
-    {name:'Problem Solving',color:'#ff006e',dist:8,tilt:-.15,speed:.3}
-  ];
+        const skills = [
+          { name: "HTML5", color: "#e34f26", dist: 3.2, tilt: 0.1, speed: 0.8 },
+          { name: "CSS3", color: "#2965f1", dist: 3.8, tilt: 0.3, speed: 0.7 },
+          {
+            name: "JavaScript",
+            color: "#f7df1e",
+            dist: 4.4,
+            tilt: -0.2,
+            speed: 0.6,
+          },
+          {
+            name: "Flexbox",
+            color: "#ff8c00",
+            dist: 5,
+            tilt: 0.4,
+            speed: 0.55,
+          },
+          {
+            name: "Responsive",
+            color: "#28c840",
+            dist: 5.6,
+            tilt: -0.3,
+            speed: 0.5,
+          },
+          {
+            name: "Git/GitHub",
+            color: "#9d00ff",
+            dist: 6.2,
+            tilt: 0.2,
+            speed: 0.45,
+          },
+          {
+            name: "VS Code",
+            color: "#4b0082",
+            dist: 6.8,
+            tilt: -0.4,
+            speed: 0.4,
+          },
+          { name: "C", color: "#ff69b4", dist: 7.4, tilt: 0.35, speed: 0.35 },
+          {
+            name: "Problem Solving",
+            color: "#ff006e",
+            dist: 8,
+            tilt: -0.15,
+            speed: 0.3,
+          },
+        ];
 
-  const spheres=[];
-  const raycaster=new THREE.Raycaster();
-  const mouse=new THREE.Vector2();
-  const tooltip=document.getElementById('skill-tooltip');
+        const spheres = [];
+        const raycaster = new THREE.Raycaster();
+        const mouse = new THREE.Vector2();
+        const tooltip = document.getElementById("skill-tooltip");
 
-  skills.forEach((s,i)=>{
-    // Orbit ring
-    const curve=new THREE.EllipseCurve(0,0,s.dist,s.dist*.7,0,Math.PI*2,false,0);
-    const pts=curve.getPoints(80);
-    const orbitGeo=new THREE.BufferGeometry().setFromPoints(pts.map(p=>new THREE.Vector3(p.x,0,p.y)));
-    const orbitMat=new THREE.LineBasicMaterial({color:s.color,transparent:true,opacity:.15});
-    const orbit=new THREE.Line(orbitGeo,orbitMat);
-    orbit.rotation.x=s.tilt;
-    scene.add(orbit);
+        skills.forEach((s, i) => {
+          // Orbit ring
+          const curve = new THREE.EllipseCurve(
+            0,
+            0,
+            s.dist,
+            s.dist * 0.7,
+            0,
+            Math.PI * 2,
+            false,
+            0,
+          );
+          const pts = curve.getPoints(80);
+          const orbitGeo = new THREE.BufferGeometry().setFromPoints(
+            pts.map((p) => new THREE.Vector3(p.x, 0, p.y)),
+          );
+          const orbitMat = new THREE.LineBasicMaterial({
+            color: s.color,
+            transparent: true,
+            opacity: 0.15,
+          });
+          const orbit = new THREE.Line(orbitGeo, orbitMat);
+          orbit.rotation.x = s.tilt;
+          scene.add(orbit);
 
-    // Sphere
-    const sg=new THREE.SphereGeometry(.35,24,24);
-    const sm=new THREE.MeshBasicMaterial({color:s.color,transparent:true,opacity:.7});
-    const sphere=new THREE.Mesh(sg,sm);
-    sphere.userData={name:s.name,dist:s.dist,distY:s.dist*.7,tilt:s.tilt,speed:s.speed,offset:i*((Math.PI*2)/skills.length)};
-    scene.add(sphere);
+          // Sphere
+          const sg = new THREE.SphereGeometry(0.35, 24, 24);
+          const sm = new THREE.MeshBasicMaterial({
+            color: s.color,
+            transparent: true,
+            opacity: 0.7,
+          });
+          const sphere = new THREE.Mesh(sg, sm);
+          sphere.userData = {
+            name: s.name,
+            dist: s.dist,
+            distY: s.dist * 0.7,
+            tilt: s.tilt,
+            speed: s.speed,
+            offset: i * ((Math.PI * 2) / skills.length),
+          };
+          scene.add(sphere);
 
-    // Glow
-    const gg=new THREE.SphereGeometry(.5,16,16);
-    const gm=new THREE.MeshBasicMaterial({color:s.color,transparent:true,opacity:.1});
-    const glow=new THREE.Mesh(gg,gm);
-    sphere.add(glow);
+          // Glow
+          const gg = new THREE.SphereGeometry(0.5, 16, 16);
+          const gm = new THREE.MeshBasicMaterial({
+            color: s.color,
+            transparent: true,
+            opacity: 0.1,
+          });
+          const glow = new THREE.Mesh(gg, gm);
+          sphere.add(glow);
 
-    // Label
-    const label=makeLabel(s.name,s.color);
-    label.position.set(0,.7,0);
-    sphere.add(label);
+          // Label
+          const label = makeLabel(s.name, s.color);
+          label.position.set(0, 0.7, 0);
+          sphere.add(label);
 
-    spheres.push(sphere);
-  });
+          spheres.push(sphere);
+        });
 
-  function makeLabel(text,color){
-    const c=document.createElement('canvas');
-    c.width=256;c.height=64;
-    const ctx=c.getContext('2d');
-    ctx.font='bold 22px Orbitron, sans-serif';
-    ctx.fillStyle=color;
-    ctx.textAlign='center';
-    ctx.fillText(text,128,40);
-    const tex=new THREE.CanvasTexture(c);
-    const mat=new THREE.SpriteMaterial({map:tex,transparent:true,depthWrite:false});
-    const sprite=new THREE.Sprite(mat);
-    sprite.scale.set(2,.5,1);
-    return sprite;
-  }
+        function makeLabel(text, color) {
+          const c = document.createElement("canvas");
+          c.width = 256;
+          c.height = 64;
+          const ctx = c.getContext("2d");
+          ctx.font = "bold 22px Orbitron, sans-serif";
+          ctx.fillStyle = color;
+          ctx.textAlign = "center";
+          ctx.fillText(text, 128, 40);
+          const tex = new THREE.CanvasTexture(c);
+          const mat = new THREE.SpriteMaterial({
+            map: tex,
+            transparent: true,
+            depthWrite: false,
+          });
+          const sprite = new THREE.Sprite(mat);
+          sprite.scale.set(2, 0.5, 1);
+          return sprite;
+        }
 
-  let clock=0;
-  function animSkills(){
-    requestAnimationFrame(animSkills);
-    clock+=.01;
-    spheres.forEach(s=>{
-      const d=s.userData;
-      const angle=clock*d.speed+d.offset;
-      const x=Math.cos(angle)*d.dist;
-      const z=Math.sin(angle)*d.distY;
-      const y=Math.sin(angle)*Math.sin(d.tilt)*d.dist*.3;
-      s.position.set(x,y,z);
-    });
-    centerSphere.rotation.y+=.005;
-    controls.update();
-    renderer.render(scene,camera);
-  }
-  animSkills();
+        let clock = 0;
+        function animSkills() {
+          requestAnimationFrame(animSkills);
+          clock += 0.01;
+          spheres.forEach((s) => {
+            const d = s.userData;
+            const angle = clock * d.speed + d.offset;
+            const x = Math.cos(angle) * d.dist;
+            const z = Math.sin(angle) * d.distY;
+            const y = Math.sin(angle) * Math.sin(d.tilt) * d.dist * 0.3;
+            s.position.set(x, y, z);
+          });
+          centerSphere.rotation.y += 0.005;
+          controls.update();
+          renderer.render(scene, camera);
+        }
+        animSkills();
 
-  canvas.addEventListener('mousemove',e=>{
-    const rect=canvas.getBoundingClientRect();
-    mouse.x=((e.clientX-rect.left)/rect.width)*2-1;
-    mouse.y=-((e.clientY-rect.top)/rect.height)*2+1;
-    raycaster.setFromCamera(mouse,camera);
-    const hits=raycaster.intersectObjects(spheres);
-    if(hits.length>0){
-      tooltip.style.display='block';
-      tooltip.textContent=hits[0].object.userData.name;
-      tooltip.style.left=e.clientX+15+'px';
-      tooltip.style.top=e.clientY-15+'px';
-    }else{tooltip.style.display='none'}
-  });
-  canvas.addEventListener('mouseleave',()=>tooltip.style.display='none');
+        canvas.addEventListener("mousemove", (e) => {
+          const rect = canvas.getBoundingClientRect();
+          mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+          mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+          raycaster.setFromCamera(mouse, camera);
+          const hits = raycaster.intersectObjects(spheres);
+          if (hits.length > 0) {
+            tooltip.style.display = "block";
+            tooltip.textContent = hits[0].object.userData.name;
+            tooltip.style.left = e.clientX + 15 + "px";
+            tooltip.style.top = e.clientY - 15 + "px";
+          } else {
+            tooltip.style.display = "none";
+          }
+        });
+        canvas.addEventListener(
+          "mouseleave",
+          () => (tooltip.style.display = "none"),
+        );
 
-  window.addEventListener('resize',()=>{
-    const nw=canvas.clientWidth,nh=canvas.clientHeight;
-    camera.aspect=nw/nh;
-    camera.updateProjectionMatrix();
-    renderer.setSize(nw,nh);
-  });
-})();
+        window.addEventListener("resize", () => {
+          const nw = canvas.clientWidth,
+            nh = canvas.clientHeight;
+          camera.aspect = nw / nh;
+          camera.updateProjectionMatrix();
+          renderer.setSize(nw, nh);
+        });
+      })();
 
-/* ============ GSAP SCROLL REVEALS ============ */
-gsap.registerPlugin(ScrollTrigger);
+      /* ============ GSAP SCROLL REVEALS ============ */
+      gsap.registerPlugin(ScrollTrigger);
 
-// Section reveals
-document.querySelectorAll('section').forEach(sec=>{
-  gsap.from(sec.querySelectorAll('.section-tag,.section-title,h1,.terminal,.avatar-area,.project-card,.timeline-item,.contact-panel'),{
-    y:60,opacity:0,duration:1,stagger:.15,ease:'power3.out',
-    scrollTrigger:{trigger:sec,start:'top 80%',toggleActions:'play none none none'}
-  });
-});
+      // Section reveals
+      document.querySelectorAll("section").forEach((sec) => {
+        gsap.from(
+          sec.querySelectorAll(
+            ".section-tag,.section-title,h1,.terminal,.avatar-area,.project-card,.timeline-item,.contact-panel",
+          ),
+          {
+            y: 60,
+            opacity: 0,
+            duration: 1,
+            stagger: 0.15,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: sec,
+              start: "top 80%",
+              toggleActions: "play none none none",
+            },
+          },
+        );
+      });
 
-// Timeline line draw
-gsap.fromTo('#timeline-line-fill',{scaleY:0},{scaleY:1,ease:'none',scrollTrigger:{trigger:'.timeline',start:'top 80%',end:'bottom 60%',scrub:1}});
+      // Timeline line draw
+      gsap.fromTo(
+        "#timeline-line-fill",
+        { scaleY: 0 },
+        {
+          scaleY: 1,
+          ease: "none",
+          scrollTrigger: {
+            trigger: ".timeline",
+            start: "top 80%",
+            end: "bottom 60%",
+            scrub: 1,
+          },
+        },
+      );
 
-// Timeline nodes pulse
-document.querySelectorAll('.timeline-node').forEach(node=>{
-  gsap.from(node,{scale:0,duration:.6,ease:'back.out(2)',scrollTrigger:{trigger:node,start:'top 85%',toggleActions:'play none none none'}});
-});
-
-</script>
-</body>
+      // Timeline nodes pulse
+      document.querySelectorAll(".timeline-node").forEach((node) => {
+        gsap.from(node, {
+          scale: 0,
+          duration: 0.6,
+          ease: "back.out(2)",
+          scrollTrigger: {
+            trigger: node,
+            start: "top 85%",
+            toggleActions: "play none none none",
+          },
+        });
+      });
+    </script>
+  </body>
 </html>
